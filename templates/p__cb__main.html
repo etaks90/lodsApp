@@ -1,0 +1,43 @@
+{% extends 'p__layout.html' %}
+
+{% block title %}Home - My ML App{% endblock %}
+
+{% block content %}
+<h1>FAQ CHATBOT MAIN</h1>
+
+
+<form id="myForm" method="post" action="/p__cb__selection">
+    <!--Button only clickable when text available-->
+    <div>
+        <p>Input a name for the chatbot here and provide information (e.g. FAQ) below.</p>
+        <input type="text" name="cb__name" id="cb__name" oninput="checkInput()" placeholder="Enter text">
+        <button type="submit" id="submitButton" name="push__faq" disabled>CREATE FAQ CHATBOT</button>
+    </div>
+    <div style="width: 98%;">
+        <p>Input chatbot information (e.g. FAQ).</p>
+        <textarea name="cb__faq" id="cb__faq" style="width: 100%; overflow-y: hidden; resize: none;" oninput="autoResize(this)" placeholder="Enter text"></textarea>
+    </div>
+    
+    <script>
+        function autoResize(textarea) {
+            textarea.style.height = 'auto'; // Reset the height to auto to recalculate the actual height
+            textarea.style.height = (textarea.scrollHeight) + 'px'; // Set the height to fit the content
+        }
+
+        function checkInput() {
+            var textField = document.getElementById('cb__name');
+            var submitButton = document.getElementById('submitButton');
+    
+            // Enable the button if the text field is not empty, otherwise disable it
+            if (textField.value.trim() !== '') {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+
+    </script>
+    
+</form>
+
+{% endblock %}

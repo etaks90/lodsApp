@@ -1,0 +1,29 @@
+{% extends 'p__layout.html' %}
+
+{% block title %}Home - My ML App{% endblock %}
+
+{% block content %}
+<style>
+    /* CSS style for the anchor tag */
+    a {
+        color: blue; /* Set link color to blue */
+        text-decoration: none; /* Remove underline */
+    }
+</style>
+    <h3><a href="{{ url_for('p__num__main') }}"> Regression</a></h3>
+    Assume you have data in a table and would like to predict a continuous value based on other values. This describes a regression problem, which you can solve <a href="{{ url_for('p__num__main') }}"> here</a>.
+    You can find the already created regression solutions <a href="{{ url_for('p__num__selection') }}"> here</a>.</p>
+    <div class="thick-line" style="border-top: 5px solid rgb(132, 136, 136); margin-bottom: 20px;"></div>
+    <h3><a href="{{ url_for('p__num__main') }}"> Classification</a></h3>
+    Assume you have data in a table and would like to predict to predict a class based on other values. This describes a classification problem, which you can solve <a href="{{ url_for('p__num__main') }}"> here</a>.
+    You can find the already created classification solutions <a href="{{ url_for('p__num__selection') }}"> here</a>.</p>
+    <div class="thick-line" style="border-top: 5px solid rgb(132, 136, 136); margin-bottom: 20px;"></div>
+    <h3><a href="{{ url_for('p__cb__main') }}"> Chatbot</a></h3>
+    Assume you have some information, e.g. a FAQ, and you would like to create a chatbot able to communicate with the knowledge of these information.
+    In this case you can follow this <a href="{{ url_for('p__cb__main') }}"> this</a> link.
+    <div class="thick-line" style="border-top: 5px solid rgb(132, 136, 136); margin-bottom: 20px;"></div>
+    <h3><a href="{{ url_for('p__doc__main') }}"> Form information extraction</a></h3>
+    Assume you have several forms as images and would liek to extract certain information. In this case you can follow <a href="{{ url_for('p__doc__main') }}"> this</a> link.
+</p>
+    
+{% endblock %}

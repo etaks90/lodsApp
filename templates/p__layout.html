@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <style>
+        body {
+            background-color: #312f2fab;
+            /* Dark background color */
+            color: #fff;
+            /* Light text color */
+        }
+
+        nav {
+            background-color: #333;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .button-box {
+            margin-bottom: 20px;
+        }
+
+        .explanation-box {
+            display: none;
+            background-color: #444;
+            /* Darker background color for explanation box */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            /* Bootstrap primary color for buttons */
+            color: #fff;
+            /* Text color for buttons */
+        }
+
+        .button-box button {
+            color: #fff;
+            /* Light text color for buttons */
+        }
+
+        .body {
+            background-color: #121212;
+            /* Dark background color */
+            color: #fff;
+            /* Light text color */
+        }
+
+        nav {
+            background-color: #333;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            margin-top: 50px;
+            /* Add margin before the first button */
+        }
+
+        .button-box {
+            display: flex;
+            align-items: center;
+            gap: 100px;
+            /* Adjust the gap between button and explanation-text */
+            margin-bottom: 100px;
+            /* Add margin between button-box elements */
+
+        }
+
+        hr {
+            border: 1px solid #333;
+            /* Horizontal line color */
+            width: 100%;
+        }
+    </style>
+    <title>{% block title %}My ML App{% endblock %}</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('p__home') }}">Home</a>
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('p__num__main') }}">Regression/Classification<br>New</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('p__num__selection') }}">Regression/Classification<br>Selection</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('p__cb__main') }}">FAQ-Chatbot<br>Creation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('p__cb__selection') }}">FAQ-Chatbot<br>Selection</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('p__doc__main') }}">DOC-Extraction</a>
+                </li>
+                <!--
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Selection
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ url_for('p__addNewColumns__numerical') }}">Placeholder</a>
+                        <a class="dropdown-item" href="{{ url_for('p__addNewColumns__numerical') }}">Placeholder</a>
+                        <a class="dropdown-item" href="{{ url_for('p__addNewColumns__numerical') }}">Placeholder</a>
+                        <a class="dropdown-item" href="{{ url_for('p__addNewColumns__numerical') }}">Placeholder</a>
+                    </div>
+                </li>
+                -->
+            </ul>
+            <ul class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="navbar-text me-3">Logged in as: {{ current_user.id }}</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+{% extends 'p__layout.html' %}
+
+{% block title %}Page 2 - My ML App{% endblock %}
+
+{% block content %}
+    <h1>Information about trained network {{name_network}}</h1>
+    <p>{{txt}}</p>
+    <p>Click <a href="{{ url_for('p__num__specific', name_network=name_network) }}"><span style="color: blue;">here</span></a> to use the network.</p>
+    <img src="data:image/png;base64,{{ result_visualization }}" alt="Confusion Matrix">
+
+{% endblock %}

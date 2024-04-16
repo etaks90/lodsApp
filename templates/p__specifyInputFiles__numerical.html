@@ -1,0 +1,26 @@
+{% extends 'p__layout.html' %}
+
+{% block title %}Page 2 - My ML App{% endblock %}
+
+{% block content %}
+<h1>Select path for data:</h1>
+<form action="{{ url_for('p__adapt_columnNames_columnTypes_set_join__numerical') }}" method="post"
+    style="display: flex; flex-wrap: wrap;">
+    <div style="flex-basis: 80%;">
+        <label for="folder_path">Folder:</label>
+        <input type="text" name="folder_path"
+            value="C:\Users\oliver.koehn\Documents\projects\masterThesisLODS\examples\eval__berka\in" id="folder_path_1"
+            placeholder="Paste folder path here" style="width: 100%;" required>
+    </div>
+    <div style="flex-basis: 5%; margin-left: 10px;">
+        <label for="delimiter">Delimiter:</label>
+        <input type="text" name="delimiter" value=";" id="delimiter" placeholder="Paste folder path here"
+            style="width: 100%;" required>
+    </div>
+    <div style="flex-basis: 100%; margin-top: 10px;">
+        <button type="submit" style="width: 100%;">Submit</button>
+    </div>
+</form>
+
+
+{% endblock %}

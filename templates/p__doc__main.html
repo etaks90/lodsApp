@@ -1,0 +1,82 @@
+{% extends 'p__layout.html' %}
+
+{% block title %}Home - My ML App{% endblock %}
+
+{% block content %}
+<h1>Document information extraction</h1>
+
+<form action="/send_excel_doc" method="get">
+
+    <div style="width: 98%;">
+        <p>Fields to extract as comma separated list.</p>
+        <textarea name="doc__fields" id="doc__fields" style="width: 100%; overflow-y: hidden; resize: none;"
+            oninput="autoResize(this)" placeholder="Enter text"></textarea>
+    </div>
+    <button type="submit">Evaluate uploaded images</button>
+</form>
+
+<style>
+    /* Style for drop zone */
+    #drop_zone {
+        width: 100%;
+        min-height: 200px;
+        border: 2px dashed #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+</style>
+<h1>Drag and Drop Multiple Files to Upload</h1>
+<div id="drop_zone">Drag and drop files here</div>
+<br>
+<h2>Uploaded Files:</h2>
+<ul id="file_list"></ul>
+
+
+
+
+<script>
+    var dropZone = document.getElementById('drop_zone');
+
+    // Prevent default behavior (Prevent file from being opened)
+    dropZone.addEventListener('dragover', function (e) {
+        e.preventDefault();
+    });
+
+    // Handle dropped files
+    dropZone.addEventListener('drop', function (e) {
+        console.log("1");
+        e.preventDefault();
+        var files = e.dataTransfer.files;
+
+        // Display file names
+        var fileList = document.getElementById('file_list');
+        fileList.innerHTML = ''; // Clear previous list
+
+        for (var i = 0; i < files.length; i++) {
+            var li = document.createElement('li');
+            li.textContent = files[i].name;
+            fileList.appendChild(li);
+        }
+
+        // Upload files via AJAX or form submission
+        // Example: You can use FormData to send files to Flask backend
+        var formData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            formData.append('files[]', files[i]);
+        }
+
+        // Example: Upload files using fetch API
+        fetch('/upload_images_doc', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+    });
+</script>
+
+
+{% endblock %}

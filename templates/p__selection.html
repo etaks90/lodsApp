@@ -1,0 +1,33 @@
+{% extends 'p__layout.html' %}
+
+{% block title %}Home - My ML App{% endblock %}
+
+{% block content %}
+    <h1>What do you want to do?</h1>
+    <div class="button-container">
+        <div class="button-box">
+            <a href="{{ url_for('p__specifyInputFiles__numerical') }}" class="btn btn-primary btn-lg">Train</a>
+            <p class="explanation-text">
+                This is the explanation for Button 1. It does something useful!
+            </p>
+        </div>
+        <hr>
+
+        <div class="button-box">
+            <a href="{{ url_for('p02_02__test') }}" class="btn btn-primary btn-lg">Test</a>
+            <p class="explanation-text">
+                This is the explanation for Button 2. It performs a specific action.
+            </p>
+        </div>
+        <hr>
+
+        <div class="button-box">
+            <a href="{{ url_for('p02_03__deploy') }}" class="btn btn-primary btn-lg">Deploy</a>
+            <p class="explanation-text">
+                This is the explanation for Button 3. It has a unique functionality.
+            </p>
+        </div>
+    </div>
+
+    
+{% endblock %}

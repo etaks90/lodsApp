@@ -1,0 +1,55 @@
+{% extends 'p__layout.html' %}
+
+{% block title %}Home - My ML App{% endblock %}
+
+{% block content %}
+<h1>FAQ CHATBOT MAIN</h1>
+
+
+<style>
+    /* CSS to make text color black */
+    #data-table tbody td {
+        color: black;
+    }
+
+    /* CSS to make link text blue */
+    #data-table tbody a {
+        color: blue;
+    }
+</style>
+<table id="data-table" class="display">
+    <thead>
+        <tr>
+            <!-- Column headers will be generated dynamically -->
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Data rows will be generated dynamically -->
+    </tbody>
+</table>
+<script>
+    $(document).ready(function() {
+        // Fetch data from endpoint
+        $.getJSON("/send_available_chatbots", function(data) {
+            // Extract column names from the first row
+            var columns = Object.keys(data[0]);
+            // Generate column headers
+            var headers = columns.map(function(col) {
+                return "<th>" + col + "</th>";
+            });
+            // Append column headers
+            $("#data-table thead tr").append(headers.join(""));
+            // Populate data rows
+            data.forEach(function(row) {
+                var cells = columns.map(function(col) {
+                    return "<td>" + row[col] + "</td>";
+                });
+                $("#data-table tbody").append("<tr>" + cells.join("") + "</tr>");
+            });
+            // Initialize DataTable
+            $('#data-table').DataTable();
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'p__layout.html' %}
+
+{% block title %}Home - My ML App{% endblock %}
+
+{% block content %}
+<h1>Use network {{name_network}}</h1>
+<p>Upload relevant tables you want work with. Afterwards you can perform your {{predict_type}}-task.</p>
+
+
+<style>
+    /* Style for drop zone */
+    #drop_zone {
+        width: 100%;
+        min-height: 200px;
+        border: 2px dashed #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+</style>
+<h1>Drag and Drop Multiple Files to Upload</h1>
+<div id="drop_zone">Drag and drop files here</div>
+<br>
+<h2>Uploaded Files:</h2>
+<ul id="file_list"></ul>
+
+
+<form action="/out__num_specific_send_excel" method="get">
+    <button type="submit" style="text-transform: uppercase;">DO {{predict_type}}</button>
+</form>
+
+<script>
+    var dropZone = document.getElementById('drop_zone');
+
+    // Prevent default behavior (Prevent file from being opened)
+    dropZone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+    });
+
+    // Handle dropped files
+    dropZone.addEventListener('drop', function(e) {
+        console.log("1");
+        e.preventDefault();
+        var files = e.dataTransfer.files;
+
+        // Display file names
+        var fileList = document.getElementById('file_list');
+        fileList.innerHTML = ''; // Clear previous list
+
+        for (var i = 0; i < files.length; i++) {
+            var li = document.createElement('li');
+            li.textContent = files[i].name;
+            fileList.appendChild(li);
+        }
+
+        // Upload files via AJAX or form submission
+        // Example: You can use FormData to send files to Flask backend
+        var formData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            formData.append('files[]', files[i]);
+        }
+
+        // Example: Upload files using fetch API
+        fetch('/in__num_specific_upload_tables', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+    });
+
+</script>
+
+    
+
+
+{% endblock %}

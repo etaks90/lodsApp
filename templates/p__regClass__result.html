@@ -1,0 +1,192 @@
+{% extends 'p__layout.html' %}
+
+{% block title %}Page 2 - My ML App{% endblock %}
+
+{% block content %}
+<h1>Test network</h1>
+
+<form action="/regClass__t0__result" method="get">
+    <label for="filename">Enter Filename:</label>
+    <input type="text" id="filename" name="filename">
+    <button type="submit">Download Excel</button>
+</form>
+
+<div class="thick-line" style="border-top: 10px solid rgb(42, 39, 207); margin-bottom: 20px; margin-top: 20px;;"></div>
+
+<div style="display: flex; justify-content: space-between;">
+    <div style="margin-right: 20px;">
+        <button id="button__t1">Send Data</button>
+        <input type="text" id="response__t1" readonly>
+        <table id="t1" class="display">
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data__t1 %}
+                <tr>
+                    <td style="color: black;">{{ row['Column'] }}</td>
+                    <td style="color: black;">{{ row['Value'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div style="position: relative;">
+        <div class="vertical-line"></div>
+    </div>
+
+    <div>
+        <button id="button__t2">Send Data</button>
+        <input type="text" id="response__t2" readonly>
+        <table id="t2" class="display">
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data__t2 %}
+                <tr>
+                    <td style="color: black;">{{ row['Column'] }}</td>
+                    <td style="color: black;">{{ row['Value'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!--WE NEED TO IMPROT BOTH SCRIPTS AND BELOW INITIALIZE DATATABLE-->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+<script>
+    
+    // t1
+    $(document).ready(function () {
+        // Initialize DataTable for t1
+
+        $('#t1').DataTable({
+            paging: false // Disable pagination
+            , columnDefs: [
+                {
+                    targets: 1, // Second column index
+                    render: function (data, type, row) {
+                        // Render "none" as blank in the table
+                        return data === 'none' ? '' : data;
+                    },
+                    createdCell: function (cell, cellData, rowData, rowIndex, colIndex) {
+                        // Add contenteditable attribute to make cells editable
+                        $(cell).attr('contenteditable', 'true');
+                    }
+                }
+            ]
+        });
+
+        // Event handler for button__t1
+        $('#button__t1').on('click', function () {
+            var tableData = [];
+            $('#t1 tbody tr').each(function () {
+                var rowData = {};
+                rowData.column = $(this).find('td:eq(0)').text();
+                rowData.value = $(this).find('td:eq(1)').text();
+                tableData.push(rowData);
+            });
+
+            // Send data to backend endpoint via AJAX
+            $.ajax({
+                type: 'POST',
+                url: '/regClass__t1__result',
+                contentType: 'application/json',
+                data: JSON.stringify(tableData),
+                success: function (response) {
+                    $('#response__t1').val(response);
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        // Initialize DataTable for t1
+        $('#t2').DataTable({
+            paging: false // Disable pagination
+            , columnDefs: [
+                {
+                    targets: 1, // Second column index
+                    render: function (data, type, row) {
+                        // Render "none" as blank in the table
+                        return data === 'none' ? '' : data;
+                    },
+                    createdCell: function (cell, cellData, rowData, rowIndex, colIndex) {
+                        // Add contenteditable attribute to make cells editable
+                        $(cell).attr('contenteditable', 'true');
+                    }
+                }
+            ]
+        });
+        // Event handler for button__t1
+        $('#button__t2').on('click', function () {
+            var tableData = [];
+            $('#t2 tbody tr').each(function () {
+                var rowData = {};
+                rowData.column = $(this).find('td:eq(0)').text();
+                rowData.value = $(this).find('td:eq(1)').text();
+                tableData.push(rowData);
+            });
+
+            // Send data to backend endpoint via AJAX
+            $.ajax({
+                type: 'POST',
+                url: '/regClass__t1__result',
+                contentType: 'application/json',
+                data: JSON.stringify(tableData),
+                success: function (response) {
+                    $('#response__t2').val(response);
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>
+
+<style>
+    .table-container {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .table-wrapper {
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    .data-table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .data-table th,
+    .data-table td {
+        border: 4px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+</style>
+
+{% endblock %}

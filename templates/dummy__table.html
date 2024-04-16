@@ -1,0 +1,70 @@
+{% extends 'p__layout.html' %}
+
+{% block title %}Home - My ML App{% endblock %}
+
+{% block content %}
+<h1>Datatable example</h1>
+<p>Datatable example.</p>
+
+<table id="myTable" class="display">
+    <thead>
+        <tr>
+            <th>Selected</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>City</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in data %}
+        <tr>
+            <td><input type="checkbox" class="row-checkbox" data-name="{{ row['Name'] }}" data-age="{{ row['Age'] }}"
+                    data-city="{{ row['City'] }}"></td> <!-- Checkbox -->
+            <td style="color: black;">{{ row['Name'] }}</td>
+            <td style="color: black;">{{ row['Age'] }}</td>
+            <td style="color: black;">{{ row['City'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+<script>
+    var table;
+
+    $(document).ready(function () {
+        table = $('#myTable').DataTable();
+
+        // Check all checkboxes initially
+        $('.row-checkbox').prop('checked', true);
+
+        $('#myTable').on('change', '.row-checkbox', function () {
+            var data = table.rows().data().toArray(); // Get all rows data
+            var checkedRows = [];
+            $('.row-checkbox').each(function (index) {
+                if ($(this).prop('checked')) {
+                    checkedRows.push(index); // Add index of checked row
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: "/dummy_api__for__dummy__table",
+                contentType: "application/json",
+                data: JSON.stringify({ data: data, checkedRows: checkedRows }),
+                success: function (response) {
+                    console.log(response);
+                    // Handle success response here
+                },
+                error: function (error) {
+                    console.error(error);
+                    // Handle error response here
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

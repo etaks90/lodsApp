@@ -1,0 +1,275 @@
+{% extends 'p__layout.html' %}
+
+{% block title %}Page 2 - My ML App{% endblock %}
+
+{% block content %}
+<h1>Column-names</h1>
+<p>Here we can edit the column-names of the table. The better the columns describe the column,
+    the better we can provide suggestions on further data manipulation. We provide 20 sample rows to get an overview
+    over the data.
+    To edit column names, enter a mapping in the form<br />
+    old column name;new-column name.</p>
+
+    {% if session.get('map_col_names') is not none %}
+<form method="post" action="/p__addNewColumns__numerical">
+    <button type="submit" name="p__addNewColumns__numerical__button__continue">CONTINUE</button>
+</form>
+{% endif %}
+
+<!--<form action="{{ url_for('p__adapt_columnNames_columnTypes_set_join__numerical') }}" method="post">-->
+<form method="post" action="/p__adapt_columnNames_columnTypes_set_join__numerical">
+    <button type="submit" name="p__adapt_columnNames_columnTypes_set_join__numerical__button__checking">CHECK AND PERFORM CHANGES</button>
+    {% for key, dataframe in j__df__original.items() %}
+    <div class="thick-line" style="border-top: 5px solid rgb(39, 202, 207);"></div>
+
+    <h1>{{ key }}</h1>
+
+    <h2>{{ key }} (original)</h2>
+    <div class="table-container" style="display: flex; justify-content: space-between;">
+
+        <div class="table-wrapper" style="width: 100%;">
+
+            <table class="data-table">
+                <thead>
+                    <tr style="background-color: #6e706e;">
+                        {% for col in dataframe.columns %}
+                        <th contenteditable="false">{{ col[0] }}</th>
+                        {% endfor %}
+                    </tr>
+                    <tr style="background-color: #6e706e;">
+                        {% for col in dataframe.columns %}
+                        <th contenteditable="false">{{ col[2] }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for _, row in dataframe.iterrows() %}
+                    <tr>
+                        {% for col in dataframe.columns %}
+                        <td>{{ row[col] }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Two textareas next to each other -->
+    <div style="display: flex; justify-content: space-between;">
+        <div style="width: 48%;">
+            <p>Mapping of column-names (Old-name:New-name)</p>
+            <textarea name="map_col_names__{{key}}" id="map_col_names_{{key}}" style="width: 100%;"
+                placeholder="Enter text">{{ textfields_frontend.get("map_col_names").get(key) }}</textarea>
+
+            <script>
+                // Get the textarea element by its ID
+                var textarea = document.getElementById("map_col_names_{{key}}");
+
+                // Set the initial height based on the scroll height of the content
+                textarea.style.height = textarea.scrollHeight + "px";
+
+                // Function to resize the textarea as the user types
+                function autoResize() {
+                    // Reset the height to auto to get the actual content height
+                    textarea.style.height = "auto";
+                    // Set the height to the scroll height of the content
+                    textarea.style.height = textarea.scrollHeight + "px";
+                }
+
+                // Add event listener for input event to trigger autoResize function
+                textarea.addEventListener("input", autoResize);
+            </script>
+
+        </div>
+        <div style="width: 48%;">
+            <p>Mapping of data-types (New column-name:datatype)</p>
+            <textarea name="map_datatypes__{{key}}" id="map_datatypes_{{key}}" style="width: 100%;"
+                placeholder="Enter text">{{ textfields_frontend.get("map_datatypes").get(key) }}</textarea>
+
+            <script>
+                // Get the textarea element by its ID
+                var textarea = document.getElementById("map_datatypes_{{key}}");
+
+                // Set the initial height based on the scroll height of the content
+                textarea.style.height = textarea.scrollHeight + "px";
+
+                // Function to resize the textarea as the user types
+                function autoResize() {
+                    // Reset the height to auto to get the actual content height
+                    textarea.style.height = "auto";
+                    // Set the height to the scroll height of the content
+                    textarea.style.height = textarea.scrollHeight + "px";
+                }
+
+                // Add event listener for input event to trigger autoResize function
+                textarea.addEventListener("input", autoResize);
+            </script>
+
+        </div>
+
+    </div>
+    <div style="display: flex; justify-content: space-between;">
+        <div style="width: 96%;">
+            <p>Group calculations</p>
+            <textarea name="group_calculations__{{key}}" id="group_calculations__{{key}}" style="width: 100%;"
+                placeholder="Enter text">{{ textfields_frontend.get("group_expressions").get(key) }}</textarea>
+
+            <script>
+                // Get the textarea element by its ID
+                var textarea = document.getElementById("group_calculations__{{key}}");
+
+                // Set the initial height based on the scroll height of the content
+                textarea.style.height = textarea.scrollHeight + "px";
+
+                // Function to resize the textarea as the user types
+                function autoResize() {
+                    // Reset the height to auto to get the actual content height
+                    textarea.style.height = "auto";
+                    // Set the height to the scroll height of the content
+                    textarea.style.height = textarea.scrollHeight + "px";
+                }
+
+                // Add event listener for input event to trigger autoResize function
+                textarea.addEventListener("input", autoResize);
+            </script>
+
+        </div>
+    </div>
+    {% autoescape false %}
+    <!-- Two textareas next to each other -->
+    <div style="display: flex; justify-content: space-between;">
+        <div style="width: 48%;">
+            <p style="color: red;">{{ textfields_frontend.get("checks__colRenaming").get(key)}}</p>
+        </div>
+        <div style="width: 48%;">
+            <p style="color: red;">{{ textfields_frontend.get("checks__datatypes").get(key) }}</p>
+        </div>
+    </div>
+    {% endautoescape %}
+
+    <h2>{{ key }} (adapted)</h2>
+    <div class="table-container" style="display: flex; justify-content: space-between;">
+
+        <div class="table-wrapper" style="width: 100%;">
+
+            <table class="data-table">
+                <thead>
+                    <tr style="background-color: #6e706e;">
+                        {% for col in j__df__adapted[key].columns %}
+                        <th contenteditable="false">{{ col[0] }}</th>
+                        {% endfor %}
+                    </tr>
+                    <tr style="background-color: #6e706e;">
+                        {% for col in j__df__adapted[key].columns %}
+                        <th contenteditable="false">{{ col[2] }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for _, row in j__df__adapted[key].iterrows() %}
+                    <tr>
+                        {% for col in j__df__adapted[key].columns %}
+                        <td>{{ row[col] }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+    <div class="thick-line" style="border-top: 10px solid rgb(42, 39, 207); margin-bottom: 20px;;"></div>
+
+    {% if j__df__original|length > 1 %}
+    <div style="display: flex; justify-content: space-between;">
+        <div style="width: 98%;">
+            <p>Connection of tables</p>
+            <textarea name="table_connection" id="table_connection" style="width: 100%;" rows="4"
+                oninput="autoResize(this)"
+                placeholder="Enter text">{{textfields_frontend.get("table_connection")}}</textarea>
+
+        </div>
+
+    </div>
+
+
+    {% autoescape false %}
+    <!-- Two textareas next to each other -->
+    <div style="display: flex; justify-content: space-between;">
+        <div style="width: 98%;">
+            <p style="color: red;">{{ textfields_frontend.get("errors__table_connection")}}</p>
+        </div>
+    </div>
+    {% endautoescape %}
+    {% endif %}
+    <div class="thick-line" style="border-top: 10px solid rgb(42, 39, 207); margin-bottom: 20px;;"></div>
+
+    {% if html_content__table_connection|length > 0 %}
+    <p>Please make a check if tables are connected as expected based on below visualization. It's especially important
+        that all tables (dots) are connected.</p>
+    <div>
+        {{ html_content__table_connection | safe }}
+    </div>
+    {% endif %}
+
+
+    
+
+</form>
+
+
+
+
+
+
+<script>
+    function autoResize(textarea) {
+        textarea.style.height = 'auto'; // Reset the height to auto to get the actual content height
+        textarea.style.height = (textarea.scrollHeight) + 'px'; // Set the height to the content height
+    }
+
+    // Call autoResize initially to set the height based on initial content
+    autoResize(document.getElementById('table_connection'));
+</script>
+
+
+<style>
+    .table-container {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .table-wrapper {
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    .data-table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .data-table th,
+    .data-table td {
+        border: 4px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .thick-line {
+        border-top: 5px solid #1fd7e4;
+        margin-top: 20px;
+        /* Adjust this value to set the position of the thick line */
+    }
+</style>
+
+
+
+
+
+{% endblock %}

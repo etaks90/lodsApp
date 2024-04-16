@@ -1,0 +1,82 @@
+{% extends 'p__layout.html' %}
+
+{% block title %}Page 2 - My ML App{% endblock %}
+
+{% block content %}
+<h1>Upload tables</h1>
+<form action="{{ url_for('p__adapt_columnNames_columnTypes_set_join__numerical') }}" method="post"
+    style="display: flex; flex-wrap: wrap;">
+    <div style="flex-basis: 30%; margin-left: 10px;">
+        <label for="delimiter">Define delimiter in tables:</label>
+        <input type="text" name="delimiter" value=";" id="delimiter" placeholder="Paste folder path here"
+            style="width: 10%;" required>
+    </div>
+
+    <div style="flex-basis: 30%; margin-top: 10px;">
+        <button type="submit" style="width: 100%;">Continue with uploaded files</button>
+    </div>
+</form>
+
+
+<style>
+    /* Style for drop zone */
+    #drop_zone {
+        width: 100%;
+        min-height: 200px;
+        border: 2px dashed #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+</style>
+<h1>Drag and Drop Multiple Files to Upload</h1>
+<div id="drop_zone">Drag and drop files here</div>
+<br>
+<h2>Uploaded Files:</h2>
+<ul id="file_list"></ul>
+
+<script>
+    var dropZone = document.getElementById('drop_zone');
+
+    // Prevent default behavior (Prevent file from being opened)
+    dropZone.addEventListener('dragover', function (e) {
+        e.preventDefault();
+    });
+
+    // Handle dropped files
+    dropZone.addEventListener('drop', function (e) {
+        console.log("1");
+        e.preventDefault();
+        var files = e.dataTransfer.files;
+
+        // Display file names
+        var fileList = document.getElementById('file_list');
+        fileList.innerHTML = ''; // Clear previous list
+
+        for (var i = 0; i < files.length; i++) {
+            var li = document.createElement('li');
+            li.textContent = files[i].name;
+            fileList.appendChild(li);
+        }
+
+        // Upload files via AJAX or form submission
+        // Example: You can use FormData to send files to Flask backend
+        var formData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            formData.append('files[]', files[i]);
+        }
+
+        // Example: Upload files using fetch API
+        fetch('/num__upload_tables', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+    });
+</script>
+
+
+{% endblock %}

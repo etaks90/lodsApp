@@ -1,0 +1,48 @@
+{
+    "berka": {
+        "session": {
+            "fp_tmp_user_num": "C:\\Users\\oliver.koehn\\Documents\\projects\\masterThesisLODS\\userTasks\\data\\berka",
+            "delimiter": ";",
+            "tar_col": "default",
+            "searchType": "nogrid"
+        }
+    }
+    ,"income": {
+        "session": {
+            "fp_tmp_user_num": "C:\\Users\\oliver.koehn\\Documents\\projects\\masterThesisLODS\\userTasks\\data\\income",
+            "delimiter": ",",
+            "tar_col": "income",
+            "searchType": "nogrid"
+        }
+    }
+    ,"realEstate": {
+        "session": {
+            "fp_tmp_user_num": "C:\\Users\\oliver.koehn\\Documents\\projects\\masterThesisLODS\\userTasks\\data\\realEstate",
+            "delimiter": ",",
+            "tar_col": "Y house price of unit area",
+            "searchType": "nogrid"
+        }
+    }
+    ,"medicalCost": {
+        "session": {
+            "fp_tmp_user_num": "C:\\Users\\oliver.koehn\\Documents\\projects\\masterThesisLODS\\userTasks\\data\\medicalCost",
+            "delimiter": ",",
+            "tar_col": "charges",
+            "searchType": "nogrid"
+        }
+    },"autoMpg": {
+        "session": {
+            "fp_tmp_user_num": "C:\\Users\\oliver.koehn\\Documents\\projects\\masterThesisLODS\\userTasks\\data\\autoMpg",
+            "delimiter": " ",
+            "tar_col": "MPG",
+            "searchType": "nogrid"
+        }
+    },"stars": {
+        "session": {
+            "fp_tmp_user_num": "C:\\Users\\oliver.koehn\\Documents\\projects\\masterThesisLODS\\userTasks\\data\\stars",
+            "delimiter": ",",
+            "tar_col": "Spectral Class",
+            "searchType": "nogrid"
+        }
+    }
+}
